@@ -1,0 +1,252 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif; /* Beautiful, modern font */
+  background-color: #f4f7fc;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
+  line-height: 1.6; /* Adjust line height for readability */
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+h2 {
+  font-family: 'Poppins', sans-serif; /* Elegant and clean heading font */
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+label {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 15px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  font-family: 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: #2980b9;
+  outline: none;
+  box-shadow: 0 0 8px rgba(41, 128, 185, 0.2);
+}
+
+textarea {
+  resize: vertical;
+  height: 120px;
+}
+
+button {
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 15px;
+  font-family: 'Poppins', sans-serif;
+}
+
+button:hover {
+  background-color: #3498db;
+  transform: translateY(-2px); /* Small lift effect */
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+#resume-content {
+  width: 100%;
+  max-width: 600px;
+  padding: 25px;
+  background-color: #ecf0f1;
+  margin-top: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#resume-content img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+#resume-content h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+#resume-content p,
+#resume-content h3 {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+
+#resume-content h3 {
+  color: #16a085;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 25px;
+    width: 90%;
+    max-width: 800px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  input[type="file"] {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  button {
+    padding: 10px 25px;
+    font-size: 15px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  input[type="file"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  #resume-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  input[type="file"] {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  button {
+    padding: 8px 18px;
+    font-size: 12px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  #resume-content {
+    padding: 15px;
+  }
+}
