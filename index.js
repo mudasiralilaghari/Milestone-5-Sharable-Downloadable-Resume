@@ -1,63 +1,81 @@
-document.addEventListener('DOMContentLoaded', function () {
-    var generateBtn = document.getElementById('generate-resume');
-    var downloadBtn = document.getElementById('download-pdf');
-    var copyLinkBtn = document.getElementById('copy-link');
-    var profilePicInput = document.getElementById('profile-pic');
-    var resumeContent = document.getElementById('resume-content');
-    var profilePicBase64 = '';
-    // Convert image to base64
-    profilePicInput.addEventListener('change', function () {
-        var _a;
-        var file = (_a = profilePicInput.files) === null || _a === void 0 ? void 0 : _a[0];
-        if (file) {
-            var reader_1 = new FileReader();
-            reader_1.onload = function () { return (profilePicBase64 = reader_1.result); };
-            reader_1.readAsDataURL(file);
-        }
+document.addEventListener('DOMContentLoaded', () => {
+  const generateBtn = document.getElementById('generate-resume');
+  const downloadBtn = document.getElementById('download-pdf');
+  const copyLinkBtn = document.getElementById('copy-link');
+  const profilePicInput = document.getElementById('profile-pic');
+  const resumeContent = document.getElementById('resume-content');
+
+  let profilePicBase64 = '';
+
+  profilePicInput.addEventListener('change', () => {
+    const file = profilePicInput.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => (profilePicBase64 = reader.result);
+      reader.readAsDataURL(file);
+    }
+  });
+
+  generateBtn.addEventListener('click', () => {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const education = document.getElementById('education').value;
+    const skills = document.getElementById('skills').value;
+    const work = document.getElementById('work-experience').value;
+
+    if (!name || !email || !phone || !education || !skills || !work) {
+      alert('Please fill all fields!');
+      return;
+    }
+
+    resumeContent.innerHTML = `
+      <div style="max-width: 800px; margin: auto; font-family: Arial, sans-serif; line-height: 1.6;">
+        ${profilePicBase64 ? `<img src="${profilePicBase64}" style="width:100px; height:100px; border-radius:50%; margin-bottom: 20px;">` : ''}
+        <h2 style="text-align: center;">${name}</h2>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <h3>Education</h3><p>${education}</p>
+        <h3>Skills</h3><p>${skills}</p>
+        <h3>Work Experience</h3><p>${work}</p>
+      </div>
+    `;
+
+    downloadBtn.style.display = 'inline-block';
+    copyLinkBtn.style.display = 'inline-block';
+
+    const uniqueLink = `${window.location.origin}?resume=${encodeURIComponent(JSON.stringify({
+      name,
+      email,
+      phone,
+      education,
+      skills,
+      work,
+      profilePicBase64
+    }))}`;
+
+    copyLinkBtn.addEventListener('click', () => {
+      const tempInput = document.createElement('input');
+      tempInput.value = uniqueLink;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Link copied to clipboard!');
     });
-    // Generate Resume Preview
-    generateBtn.addEventListener('click', function () {
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var phone = document.getElementById('phone').value;
-        var education = document.getElementById('education').value;
-        var skills = document.getElementById('skills').value;
-        var work = document.getElementById('work-experience').value;
-        if (!name || !email || !phone || !education || !skills || !work) {
-            alert('Please fill all fields!');
-            return;
-        }
-        resumeContent.innerHTML = "\n      ".concat(profilePicBase64 ? "<img src=\"".concat(profilePicBase64, "\" style=\"width:100px; height:100px; border-radius:50%;\">") : '', "\n      <h2>").concat(name, "</h2>\n      <p><strong>Email:</strong> ").concat(email, "</p>\n      <p><strong>Phone:</strong> ").concat(phone, "</p>\n      <h3>Education</h3><p>").concat(education, "</p>\n      <h3>Skills</h3><p>").concat(skills, "</p>\n      <h3>Work Experience</h3><p>").concat(work, "</p>\n    ");
-        downloadBtn.style.display = 'inline-block';
-        copyLinkBtn.style.display = 'inline-block';
-        // Create a unique path link for the resume (this could be replaced with a real backend link generation system)
-        var uniqueLink = "".concat(window.location.origin, "?resume=").concat(encodeURIComponent(JSON.stringify({
-            name: name,
-            email: email,
-            phone: phone,
-            education: education,
-            skills: skills,
-            work: work,
-            profilePicBase64: profilePicBase64
-        })));
-        copyLinkBtn.addEventListener('click', function () {
-            // Create a temporary input element to copy the unique link to the clipboard
-            var tempInput = document.createElement('input');
-            tempInput.value = uniqueLink;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-            alert('Link copied to clipboard!');
-        });
-    });
-    // Download as PDF using html2pdf.js
-    downloadBtn.addEventListener('click', function () {
-        var element = document.getElementById('resume-content');
-        if (element) {
-            html2pdf()
-                .from(element)
-                .save('resume.pdf');
-        }
-    });
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const element = document.getElementById('resume-content');
+    if (element) {
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  });
 });
