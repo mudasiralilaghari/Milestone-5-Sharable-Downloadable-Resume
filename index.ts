@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   const generateBtn = document.getElementById('generate-resume') as HTMLButtonElement;
   const downloadBtn = document.getElementById('download-pdf') as HTMLButtonElement;
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
   generateBtn.addEventListener('click', () => {
     const name = (document.getElementById('name') as HTMLInputElement).value;
     const email = (document.getElementById('email') as HTMLInputElement).value;
@@ -32,19 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     resumeContent.innerHTML = `
-      ${profilePicBase64 ? `<img src="${profilePicBase64}" style="width:100px; height:100px; border-radius:50%;">` : ''}
-      <h2>${name}</h2>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <h3>Education</h3><p>${education}</p>
-      <h3>Skills</h3><p>${skills}</p>
-      <h3>Work Experience</h3><p>${work}</p>
+      <div style="max-width: 800px; margin: auto; font-family: Arial, sans-serif; line-height: 1.6;">
+        ${profilePicBase64 ? `<img src="${profilePicBase64}" style="width:100px; height:100px; border-radius:50%; margin-bottom: 20px;">` : ''}
+        <h2 style="text-align: center;">${name}</h2>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <h3>Education</h3><p>${education}</p>
+        <h3>Skills</h3><p>${skills}</p>
+        <h3>Work Experience</h3><p>${work}</p>
+      </div>
     `;
 
     downloadBtn.style.display = 'inline-block';
     copyLinkBtn.style.display = 'inline-block';
 
-   
     const uniqueLink = `${window.location.origin}?resume=${encodeURIComponent(JSON.stringify({
       name,
       email,
@@ -56,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }))}`;
 
     copyLinkBtn.addEventListener('click', () => {
-  
       const tempInput = document.createElement('input');
       tempInput.value = uniqueLink;
       document.body.appendChild(tempInput);
@@ -70,9 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
   downloadBtn.addEventListener('click', () => {
     const element = document.getElementById('resume-content');
     if (element) {
-      html2pdf()
-        .from(element)
-        .save('resume.pdf');
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      };
+      html2pdf().set(opt).from(element).save();
     }
   });
 });
